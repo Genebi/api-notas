@@ -26,6 +26,7 @@ class AuthController extends Controller
             $user = Auth::user();
 
             return response()->json([
+                'error' => false,
                 'user' => $user,
                 'authorization' => [
                     'token' => $user->createToken('ApiToken')->plainTextToken,
@@ -35,6 +36,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
+            'error' => true,
             'message' => 'Credenciales incorrectas'
         ], 401);
     }
@@ -53,7 +55,11 @@ class AuthController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
+        $token = $user->createToken('API TOKEN')->plainTextToken;
+
         return response()->json([
+            'error' => false,
+            'token' => $token,
             'message' => 'Usuario creado correctamente',
             'user' => $user
         ]);
@@ -63,6 +69,7 @@ class AuthController extends Controller
         Auth::user()->tokens()->delete();
 
         return response()->json([
+            'error' => false,
             'message' => 'Sesión terminada correctamente'
         ]);
     }

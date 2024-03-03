@@ -31,6 +31,7 @@ class NotesController extends Controller
         $note->save();
 
         return response()->json([
+            'error' => false,
             'message' => 'Nota creada'
         ], 200);
     }
